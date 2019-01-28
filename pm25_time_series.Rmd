@@ -43,8 +43,12 @@ xlab("")
 
 ---
 
-
 # Summarizing data
+
+```{r}
+summary(data)
+```
+
 
 ---
 
