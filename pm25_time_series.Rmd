@@ -54,6 +54,11 @@ summary(data)
 
 # Time series objects
 
+```{r}
+library(zoo)
+```
+
+
 ---
 
 # Plotting time series
