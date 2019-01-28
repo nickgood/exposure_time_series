@@ -1,0 +1,103 @@
+---
+title: "$PM_{2.5}~Time~Series~Analysis$"
+output:
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
+    toc: true
+---
+
+```{r global_options, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE, results = 'markup',
+                      warning = FALSE, message = FALSE)
+```
+
+---
+
+# Load our data
+
+```{r}
+library(readr)
+data <- read_rds("fort_collins_pm25_2018.rds")
+```
+
+---
+
+# Take a look
+
+```{r}
+head(data, 3)
+```
+
+```{r, fig.width=10, fig.height=5}
+library(ggplot2)
+library(tidyr)
+ggplot(tmp <- data %>% gather(var, val, 3:5),
+       aes(x = datetime, y = val)) +
+geom_point(color = "darkorchid4") +
+facet_wrap(~var, ncol = 1) +
+theme_bw() +
+ylab(expression("PM"~"("*mu*g*m^-3*")")) +
+xlab("")
+```
+
+---
+
+
+# Summarizing data
+
+---
+
+# Time series objects
+
+---
+
+# Plotting time series
+
+---
+
+# Replacing values
+
+- na.locf
+
+---
+
+# Lagging
+
+---
+
+# Differences
+
+---
+
+# Smoothing
+
+---
+
+# Grouping
+
+- hourly
+- daily...
+
+---
+
+# Merging data
+
+---
+
+# Autocorrelation
+
+---
+
+# Trends and detrending
+
+---
+
+# Predictions
+
+---
+
+# Tendency
+
+---
+
