@@ -59,7 +59,7 @@ summary(data)
 library(zoo)
 library(dplyr)
 
-ts <- zoo(data[3:5], data$datetime)
+ts <- zoo(data$pm_25, data$datetime)
 
 class(ts)
 
@@ -105,6 +105,12 @@ plot(ts)
 ---
 
 # Autocorrelation
+
+```{r}
+
+acf(as.xts(data$pm_25, data$datetime))
+```
+
 
 ---
 
