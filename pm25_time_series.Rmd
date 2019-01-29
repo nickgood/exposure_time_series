@@ -18,7 +18,8 @@ knitr::opts_chunk$set(echo = TRUE, results = 'markup',
 
 ```{r}
 library(readr)
-data <- read_rds("fort_collins_pm25_2018.rds")
+data <- read_rds("fort_collins_pm25_2018.rds") %>%
+        na.omit()
 ```
 
 ---
@@ -56,12 +57,17 @@ summary(data)
 
 ```{r}
 library(zoo)
+library(dplyr)
+
+ts <- zoo(data[3:5], data$datetime)
+
+class(ts)
+
+index(ts)[1:10]
+
+plot(ts)
 ```
 
-
----
-
-# Plotting time series
 
 ---
 
@@ -87,6 +93,10 @@ library(zoo)
 
 - hourly
 - daily...
+
+---
+
+# Plotting time series
 
 ---
 
