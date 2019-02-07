@@ -18,6 +18,8 @@ knitr::opts_chunk$set(echo = TRUE, results = 'markup',
 
 ```{r}
 library(readr)
+library(dplyr)
+
 data <- read_rds("fort_collins_pm25_2018.rds") %>%
         na.omit()
 ```
@@ -107,6 +109,7 @@ plot(ts)
 # Autocorrelation
 
 ```{r}
+library(xts)
 acf(as.xts(data$pm_25, data$datetime))
 ```
 
