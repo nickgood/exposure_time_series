@@ -107,7 +107,6 @@ plot(ts)
 # Autocorrelation
 
 ```{r}
-
 acf(as.xts(data$pm_25, data$datetime))
 ```
 
