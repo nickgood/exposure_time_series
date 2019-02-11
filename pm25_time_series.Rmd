@@ -14,9 +14,11 @@ knitr::opts_chunk$set(echo = TRUE, results = 'markup',
 
 ---
 
-# Load our data
+# Our data
 
-```{r}
+* We're going to look at fine particle levels in Fort Collins during 2018
+
+```{r, echo = FALSE}
 library(readr)
 library(dplyr)
 
@@ -26,13 +28,26 @@ data <- read_rds("fort_collins_pm25_2018.rds") %>%
 
 ---
 
-# Take a look
+## Let's take a look at our data
+
+* It is vital you understand the contents of the data file(s) you are working with:
+  + data format?
+  + how are missing values represented?
+  + naming conventions?
+  + is my analysis software doing what I expect it to?
 
 ```{r}
 head(data, 3)
 ```
 
-```{r, fig.width=10, fig.height=5}
+## Graphically
+
+* A plot is a quick way to get a handle on your data
+  + what jumps outs?
+  + did our data load as expected?
+  + don't go charging off with your complicated analysis too quickly!
+
+```{r, fig.width=10, fig.height=5, echo=FALSE}
 library(ggplot2)
 library(tidyr)
 ggplot(tmp <- data %>% gather(var, val, 3:5),
@@ -46,85 +61,110 @@ xlab("")
 
 ---
 
-# Summarizing data
+# Summarizing our data
+
+* Your analysis software will have some tools for summarizing your data:
 
 ```{r}
-summary(data)
+summary(data[3:6])
 ```
 
+  + do the summary statistics make sense?
+  + what questions does this raise?
+
+## Zeros
+
+* Are they are large fraction of the dataset?
+* Are they expected?
+* How will they impact our planned analyses?
+
+```{r, echo = FALSE}
+data %>%
+  select(pm_25, pm_10, pm_coarse) %>%
+  gather(pollutant, value) %>%
+  group_by(pollutant) %>%
+  summarise(zeros = sum(. == 0))
+```
+
+## Missing values
+
+* Missing data can be particularly problematic for time series analysis:
+  + how much of our data is missing?
+  + why is it missing?
+  + how should we deal with it?
+
+* A general method to look for missing values is to create a vector of complete datetimes:
+
+```{r, echo=FALSE}
+datetimes <- data_frame(datetime = seq(as.POSIXct("2018-01-01", tz = "US/Mountain"),
+                                       as.POSIXct("2018-12-31", tz = "US/Mountain"),
+                                       by = 3600))
+```
+
+```{r}
+head(datetimes, 5)
+```
+
+* Then merge the dataset onto the complete vectors of datetimes, e.g.
+
+```{r}
+data_year <- left_join(datetimes, data, by = "datetime")
+```
+
+* We can then see how many observations are missing for the year by analyzing the merged object:
+
+```{r, echo = FALSE}
+data_year %>%
+  select(pm_25, pm_10, pm_coarse) %>%
+  gather(pollutant, value) %>%
+  group_by(pollutant) %>%
+  summarise(n_missing = sum(is.na(.)))
+```
+
+## Replacing values
+
+* One approach is to replace the missing values with the previous non-missing value
+
+```{r}
+library(zoo)
+data_replaced <- data_year %>%
+                 na.locf()
+```
+
+If we do this the mean $PM_{2.5}$ value decreases from `r round(mean(data_year$pm_25, na.rm = TRUE),1)` to `r round(mean(data_replaced$pm_25, na.rm = TRUE),1)` $\mu g~m^{-3}$.
 
 ---
 
 # Time series objects
-
-```{r}
-library(zoo)
-library(dplyr)
-
-ts <- zoo(data$pm_25, data$datetime)
-
-class(ts)
-
-index(ts)[1:10]
-
-plot(ts)
-```
-
+  + Tools for time series analyses
 
 ---
 
-# Replacing values
-
-- na.locf
-
----
-
-# Lagging
-
----
-
-# Differences
-
----
-
-# Smoothing
-
----
-
-# Grouping
-
-- hourly
-- daily...
+# Manipulating time series
+  + Smoothing
+  + Grouping
+  + Merging
+  + Lagging
 
 ---
 
 # Plotting time series
+  + Best practices applied to time series
+  + Summary plots
 
 ---
 
-# Merging data
+# Trends
+  + Is there a trend in my data
+  + Autocorrelation
+  + Detrending
+  + Predictions
+  + Mean reversion
 
 ---
 
-# Autocorrelation
-
-```{r}
-library(xts)
-acf(as.xts(data$pm_25, data$datetime))
-```
-
-
----
-
-# Trends and detrending
-
----
-
-# Predictions
-
----
-
-# Tendency
+# Advanced time series analyses
+  + brief overview of other topics
 
 ---
 
