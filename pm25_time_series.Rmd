@@ -61,6 +61,20 @@ xlab("")
 
 ---
 
+# Datetimes (in R)
+
++ Time zones
++ Datetime objects
++ Other time objects
++ Date-time functions
+
+```{r}
+
+```
+
+
+---
+
 # Summarizing our data
 
 * Your analysis software will have some tools for summarizing your data:
@@ -158,10 +172,56 @@ plot.ts(ts)
 ---
 
 # Manipulating time series
-  + Smoothing
-  + Grouping
-  + Merging
-  + Lagging
+
++ Smoothing
+
+```{r}
+library(zoo)
+ma <- rollmean(ts, 3, align = "right")
+
+head(ma)
+```
+
+```{r}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+data %>%
+  mutate(smoothed_pm25 = lowess(pm_25)$y) %>%
+  select(datetime, pm_25, smoothed_pm25) %>%
+  gather("variable", "value", 2:3) %>%
+  ggplot(aes(x = datetime, y = value, color = variable)) +
+  geom_point() +
+  theme_bw() +
+  xlab("") +
+  theme(legend.position = "top")
+```
+
++ Grouping
+
+* you may need to create the grouping variable
+
+```{r}
+library(lubridate)
+
+data_month <- data %>%
+              mutate(month = month(datetime))
+
+head(data_month, 3)
+```
+
+* now you can group by the new variable
+
+```{r}
+
+```
+
+
+
++ Merging
+  
++ Lagging
 
 ---
 
