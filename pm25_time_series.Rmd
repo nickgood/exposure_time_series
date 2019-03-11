@@ -121,6 +121,8 @@ data_year %>%
   summarise(n_missing = sum(is.na(.)))
 ```
 
+---
+
 ## Replacing values
 
 * One approach is to replace the missing values with the previous non-missing value
@@ -136,7 +138,22 @@ If we do this the mean $PM_{2.5}$ value decreases from `r round(mean(data_year$p
 ---
 
 # Time series objects
-  + Tools for time series analyses
+
+If you are working with an object oriented language such as `R`, you will not be surprised to learn that there are time series objects.
+
+* `xts` and `zoo` are timeseries packages.
+
+
+```{r}
+library(xts)
+
+ts <- xts(rnorm(100, 0, 1),
+          seq(ISOdate(2019,03,12), by = "month", length.out = 100))
+
+class(ts)
+
+plot.ts(ts)
+```
 
 ---
 
