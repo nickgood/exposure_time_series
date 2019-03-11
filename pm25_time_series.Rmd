@@ -214,10 +214,12 @@ head(data_month, 3)
 * now you can group by the new variable
 
 ```{r}
-
+data_month %>%
+  group_by(month) %>%
+  select(-datetime, - time) %>%
+  summarize_all(mean, na.rm = TRUE) %>%
+  head(12)
 ```
-
-
 
 + Merging
   
