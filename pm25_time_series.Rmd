@@ -222,8 +222,33 @@ data_month %>%
 ```
 
 + Merging
-  
+
+```{r, echo = FALSE}
+library(readr)
+library(dplyr)
+
+data_weather <- read_delim("fort_collins_weather_2018.txt",
+                           delim = " ",
+                           trim_ws = TRUE,
+                           col_types = cols()) %>%
+                setNames(tolower(colnames(.))) %>%
+                mutate(datetime = as.POSIXct(strptime(paste(date, time),
+                                             format = "%m-%d-%Y %H:%M"),
+                                             tz = "MST")) %>%
+                select(datetime, temp, rh, solar, dewpt)
+```
+
+```{r}
+library(dplyr)
+
+data_merged <- left_join(data, data_weather, by = "datetime")
+
+head(data_merged, 3)
+```
+
 + Lagging
+
+
 
 ---
 
