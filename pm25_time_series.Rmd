@@ -248,6 +248,42 @@ head(data_merged, 3)
 
 + Lagging
 
+If you want to shift a series in time - you'll want to use a `lag` function, e.g.
+
+```{r, echo = FALSE}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+lagged_series <- data %>%
+  select(datetime, pm_25) %>%
+  slice(1:200) %>%
+  mutate(lagged_pm_25 = lag(pm_25, 10)) %>%
+  gather("var", "val", 2:3) %>%
+  ggplot(aes(x = datetime, y = val, color = var)) +
+  geom_line(size = 1) +
+  theme_bw()
+
+lagged_series
+```
+
+* important you have padded your time series!
+
+```{r}
+library(xts)
+
+lagged_series <- data %>%
+  select(datetime, pm_25) %>%
+  slice(1:200) %>%
+  arrange(datetime) %>%
+  mutate(lagged_pm_25 = lag(pm_25, 10)) %>%
+  slice(11:200)
+
+ts1 <- ts(lagged_series$pm_25)
+ts2 <- ts(lagged_series$lagged_pm_25)
+
+ccf(ts1, ts2)
+```
 
 
 ---
