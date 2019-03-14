@@ -289,7 +289,21 @@ ccf(ts1, ts2)
 ---
 
 # Plotting time series
-  + Best practices applied to time series
+
++ Best practices applied to time series
+
+- high data density
+
+- clear, meaningful labels
+
+- useful references
+
+- highlight
+
+- meaningful order
+
+- use small multiples
+
   + Summary plots
 
 ---
