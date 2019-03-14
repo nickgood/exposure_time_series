@@ -269,6 +269,8 @@ lagged_series
 
 * important you have padded your time series!
 
++ Correlation and autocorrelation
+
 ```{r}
 library(xts)
 
@@ -304,16 +306,16 @@ ccf(ts1, ts2)
 
 - use small multiples
 
-  + Summary plots
++ Summary plots
 
 ---
 
 # Trends
   + Is there a trend in my data
-  + Autocorrelation
   + Detrending
-  + Predictions
   + Mean reversion
+  + Predictions
+
 
 ---
 
