@@ -63,6 +63,7 @@ xlab("")
 
 # Datetimes (in R)
 
++ When is a datetime a datetime?
 + Time zones
 + Datetime objects
 + Other time objects
@@ -315,7 +316,6 @@ ccf(ts1, ts2)
   + Detrending
   + Mean reversion
   + Predictions
-
 
 ---
 
